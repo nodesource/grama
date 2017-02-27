@@ -59,6 +59,20 @@ class Grama {
     }
   }
 
+  /**
+   * Returns all common ancestors of id1 and id2.
+   * If either id1 or id2 are not found in the ancestry an error is thrown.
+   *
+   * @name grama.commonAncestors
+   * @function
+   * @param {String|Number} id1 the first id
+   * @param {String|Number} id2 the second id
+   * @return {Map.<String|Number, Object} a map of all common ancestors found. Each
+   * ancestor has the following properties:
+   * - distance1: the distance from id1 to the ancestor
+   * - distance2: the distance from id2 to the ancestor
+   * - totalDistance: the sum of distance1 and distance1
+   */
   commonAncestors(id1, id2) {
     if (!this._ancestry.has(id1)) throw new Error(`Id ${id1} not found in the ancestry.`)
     if (!this._ancestry.has(id2)) throw new Error(`Id ${id2} not found in the ancestry.`)
@@ -75,6 +89,16 @@ class Grama {
     return common
   }
 
+  /**
+   * Returns the id of the closest ancestor of id1 and id2.
+   * If either id1 or id2 are not found in the ancestry an error is thrown.
+   *
+   * @name grama.closestCommonAncestor
+   * @function
+   * @param {String|Number} id1 the first id
+   * @param {String|Number} id2 the second id
+   * @return {String|Number} the id of the closest common ancestor or `null` if it doesn't exist
+   */
   closestCommonAncestor(id1, id2) {
     const common = this.commonAncestors(id1, id2)
     let closest = { id: null, distance: Number.MAX_SAFE_INTEGER }
@@ -84,6 +108,16 @@ class Grama {
     return closest.id
   }
 
+  /**
+   * Returns the id of the furthest ancestor of id1 and id2.
+   * If either id1 or id2 are not found in the ancestry an error is thrown.
+   *
+   * @name grama.furthestCommonAncestor
+   * @function
+   * @param {String|Number} id1 the first id
+   * @param {String|Number} id2 the second id
+   * @return {String|Number} the id of the furthest common ancestor or `null` if it doesn't exist
+   */
   furthestCommonAncestor(id1, id2) {
     const common = this.commonAncestors(id1, id2)
     let furthest = { id: null, distance: 0 }
@@ -101,6 +135,17 @@ class Grama {
   }
 }
 
+/**
+ * Creates grama who will tell you about the ancestry of the nodes you passed.
+ *
+ * @name askGrama
+ * @function
+ * @param {Object} $0 options
+ * @param {Array.<Object>} $0.nodes the nodes to be added to the ancestry
+ * @param {String} id the name of the property that returns the id of each node
+ * @param {String} parentId the name of the property that returns the id of the parent of each node
+ * @return {Object} an instance of Grama
+ */
 module.exports = function askGrama({ nodes, id, parentId }) {
   return new Grama({ nodes, id, parentId })
 }
