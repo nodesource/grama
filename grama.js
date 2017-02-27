@@ -93,40 +93,14 @@ class Grama {
     return furthest.id
   }
 
-  get allNodes() {
-    return this._nodes
-  }
-
-  summary() {
+  get summary() {
     return {
-        nodes: this.allNodes
-      , ancestry: this._ancestry
+        nodes    : this._nodes
+      , ancestry : this._ancestry
     }
   }
 }
 
-// eslint-disable-next-line no-unused-vars
-function inspect(obj, depth) {
-  console.error(require('util').inspect(obj, false, depth || 5, true))
+module.exports = function askGrama({ nodes, id, parentId }) {
+  return new Grama({ nodes, id, parentId })
 }
-
-const grama = new Grama({
-    nodes: [
-        { type: 'FSREQWRAP', id: 10, tid: 3 }
-      , { type: 'FSREQWRAP', id: 11, tid: 3 }
-      , { type: 'TickObject', id: 12, tid: 3 }
-      , { type: 'FSREQWRAP', id: 13, tid: 11 }
-      , { type: 'FSREQWRAP', id: 14, tid: 13 }
-      , { type: 'FSREQWRAP', id: 15, tid: 13 }
-      , { type: 'TickObject', id: 16, tid: 13 }
-      , { type: 'FSREQWRAP', id: 18, tid: 15 }
-      , { type: 'FSREQWRAP', id: 19, tid: 15 } ]
-    , id: 'id'
-    , parentId: 'tid'
-})
-
-const id1 = 19
-const id2 = 16
-inspect(grama.commonAncestors(id1, id2))
-inspect(grama.closestCommonAncestor(id1, id2))
-inspect(grama.furthestCommonAncestor(id1, id2))
