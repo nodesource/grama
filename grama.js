@@ -59,6 +59,40 @@ class Grama {
     }
   }
 
+  commonAncestors(id1, id2) {
+    if (!this._ancestry.has(id1)) throw new Error(`Id ${id1} not found in the ancestry.`)
+    if (!this._ancestry.has(id2)) throw new Error(`Id ${id2} not found in the ancestry.`)
+
+    const a = this._ancestry.get(id1)
+    const b = this._ancestry.get(id2)
+
+    const common = new Map()
+    for (const [ id, distance1 ] of a.ancestors) {
+      if (!b.ancestors.has(id)) continue
+      const distance2 = b.ancestors.get(id)
+      common.set(id, { distance1, distance2, totalDistance: distance1 + distance2 })
+    }
+    return common
+  }
+
+  closestCommonAncestor(id1, id2) {
+    const common = this.commonAncestors(id1, id2)
+    let closest = { id: null, distance: Number.MAX_SAFE_INTEGER }
+    for (const [ id, { totalDistance: distance } ] of common) {
+      if (distance < closest.distance) closest = { id, distance }
+    }
+    return closest.id
+  }
+
+  furthestCommonAncestor(id1, id2) {
+    const common = this.commonAncestors(id1, id2)
+    let furthest = { id: null, distance: 0 }
+    for (const [ id, { totalDistance: distance } ] of common) {
+      if (distance > furthest.distance) furthest = { id, distance }
+    }
+    return furthest.id
+  }
+
   get allNodes() {
     return this._nodes
   }
@@ -91,4 +125,8 @@ const grama = new Grama({
     , parentId: 'tid'
 })
 
-inspect(grama.summary())
+const id1 = 19
+const id2 = 16
+inspect(grama.commonAncestors(id1, id2))
+inspect(grama.closestCommonAncestor(id1, id2))
+inspect(grama.furthestCommonAncestor(id1, id2))
