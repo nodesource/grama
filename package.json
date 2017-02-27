@@ -1,30 +1,31 @@
 {
-    "name" : "grama",
-    "version" : "0.0.0",
-    "description" : "Pass grama an array of nodes with parent/child relationships and ask her questions about their ancestry.",
-    "main" : "grama.js",
-    "scripts" : {
-      "test" : "set -e; for t in test/*.js; do node $t; done"
-    },
-    "repository" : {
-      "type" : "git",
-      "url" : "git://github.com/nodesource/grama.git"
-    },
-    "homepage" : "https://github.com/nodesource/grama",
-    "dependencies" : {
-    },
-    "devDependencies" : {
-      "tape": "~4.6.3"
-    },
-    "keywords": [] ,
-    "author" : {
-      "name" : "Thorsten Lorenz",
-      "email" : "nodesource@gmx.de",
-      "url" : "http://nodesource.com"
-    },
-    "license" : {
-      "type": "MIT",
-      "url": "https://github.com/nodesource/grama/blob/master/LICENSE"
-    },
-    "engine" : { "node" : ">=0.10" }
+  "name": "grama",
+  "version": "1.0.0",
+  "description": "Pass grama an array of nodes with parent/child relationships and ask her questions about their ancestry.",
+  "main": "grama.js",
+  "scripts": {
+    "test": "set -e; for t in test/*.js; do node $t; done"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nodesource/grama.git"
+  },
+  "homepage": "https://github.com/nodesource/grama",
+  "dependencies": {},
+  "devDependencies": {
+    "tape": "~4.6.3"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Thorsten Lorenz",
+    "email": "nodesource@gmx.de",
+    "url": "http://nodesource.com"
+  },
+  "license": {
+    "type": "MIT",
+    "url": "https://github.com/nodesource/grama/blob/master/LICENSE"
+  },
+  "engine": {
+    "node": ">=0.10"
+  }
 }
