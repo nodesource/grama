@@ -30,7 +30,7 @@ class Grama {
     // first determine direct parents
     for (const [ id, val ] of this._nodes) {
       const parent = val[this._parentId]
-      const info = { ancestors: new Map(), parent }
+      const info = { parent, ancestors: new Map(), descendants: new Map() }
       info.ancestors.set(parent, 1)
       this._ancestry.set(id, info)
     }
@@ -44,14 +44,16 @@ class Grama {
     while (keepGoing) {
       keepGoing = false
 
-      for (const v of this._ancestry.values()) {
+      for (const [ k, v ] of this._ancestry) {
         // find the most ancient ancestor we found so far and see if it itself has parent
         const [ id, distance ] = lastMapEntry(v.ancestors)
         // We may not know about that ancestor which means we are done with this child.
         if (!this._ancestry.has(id)) continue
 
-        const grandParent = this._ancestry.get(id).parent
+        const parent = this._ancestry.get(id)
+        const grandParent = parent.parent
         v.ancestors.set(grandParent, distance + 1)
+        parent.descendants.set(k, distance)
         keepGoing = true
       }
     }
