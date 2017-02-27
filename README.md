@@ -3,16 +3,48 @@
 Pass grama an array of nodes with parent/child relationships and ask her questions about their ancestry.
 
 ```js
-// TODO
+const askGrama = require('grama')
+
+const grama = askGrama({
+    nodes: [
+        { id: 10, tid: 3 }
+      , { id: 11, tid: 3 }
+      , { id: 12, tid: 3 }
+      , { id: 13, tid: 11 }
+      , { id: 14, tid: 11 }
+      , { id: 15, tid: 13 }
+      , { id: 16, tid: 13 } ]
+    , id: 'id'
+    , parentId: 'tid'
+})
+
+console.log('Closest ancestor of 15 and 16 is', grama.closestCommonAncestor(15, 16))
+console.log('Closest ancestor of 15 and 11 is', grama.closestCommonAncestor(15, 11))
+console.log('Closest ancestor of 16 and 13 is', grama.closestCommonAncestor(16, 13))
 ```
 
-## Status
-
-Nix, Nada, Nichevo, Nothing --> go away!
+```
+Closest ancestor of 15 and 16 is 13
+Closest ancestor of 15 and 11 is 3
+Closest ancestor of 16 and 13 is 11
+```
 
 ## Installation
 
     npm install grama
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [API](#api)
+  - [grama.commonAncestors](#gramacommonancestors)
+  - [grama.closestCommonAncestor](#gramaclosestcommonancestor)
+  - [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
+  - [askGrama](#askgrama)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## [API](https://nodesource.github.io/grama)
 
