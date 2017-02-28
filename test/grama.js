@@ -66,3 +66,49 @@ test('\nfurthest common ancestor', function(t) {
 
   t.end()
 })
+
+test('\nclosest common ancestor using predicate', function(t) {
+  [ [ 10, 11,  3 ]
+  , [ 10, 12,  3 ]
+  , [ 19, 10,  3 ]
+  , [ 19, 14, 11 ]
+  , [ 19, 18, 11 ]
+  , [ 18, 15, 11 ]
+  , [ 18, 13, 11 ]
+  , [ 20, 19, null ]
+  ].forEach(check)
+
+  function predicate(id) {
+    return id === 11 || id === 3
+  }
+
+  function check([ id1, id2, closest ]) {
+    const res = grama.closestCommonAncestor(id1, id2, { predicate })
+    t.equal(res, closest, `${id1} - ${id2} --> ${closest}`)
+  }
+
+  t.end()
+})
+
+test('\nfurthest common ancestor using predicate', function(t) {
+  [ [ 10, 11, null ]
+  , [ 10, 12, null ]
+  , [ 19, 10, null ]
+  , [ 19, 14, 11 ]
+  , [ 19, 18, 11 ]
+  , [ 18, 15, 11 ]
+  , [ 18, 13, 11 ]
+  , [ 20, 19, null ]
+  ].forEach(check)
+
+  function predicate(id) {
+    return id === 11
+  }
+
+  function check([ id1, id2, furthest ]) {
+    const res = grama.furthestCommonAncestor(id1, id2, { predicate })
+    t.equal(res, furthest, `${id1} - ${id2} --> ${furthest}`)
+  }
+
+  t.end()
+})
