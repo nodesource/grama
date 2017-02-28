@@ -23,11 +23,9 @@ console.log('Closest ancestor of 15 and 11 is', grama.closestCommonAncestor(15, 
 console.log('Closest ancestor of 16 and 13 is', grama.closestCommonAncestor(16, 13))
 ```
 
-```
-Closest ancestor of 15 and 16 is 13
-Closest ancestor of 15 and 11 is 3
-Closest ancestor of 16 and 13 is 11
-```
+    Closest ancestor of 15 and 16 is 13
+    Closest ancestor of 15 and 11 is 3
+    Closest ancestor of 16 and 13 is 11
 
 ## Installation
 
@@ -37,12 +35,12 @@ Closest ancestor of 16 and 13 is 11
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [API](#api)
-  - [grama.commonAncestors](#gramacommonancestors)
-  - [grama.closestCommonAncestor](#gramaclosestcommonancestor)
-  - [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
-  - [askGrama](#askgrama)
-- [License](#license)
+-   [API](#api)
+    -   [grama.commonAncestors](#gramacommonancestors)
+    -   [grama.closestCommonAncestor](#gramaclosestcommonancestor)
+    -   [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
+    -   [askGrama](#askgrama)
+-   [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -65,10 +63,18 @@ If either id1 or id2 are not found in the ancestry an error is thrown.
 Returns the id of the closest ancestor of id1 and id2.
 If either id1 or id2 are not found in the ancestry an error is thrown.
 
+When using the predicate a return value of `false` will cause grama to look
+for the next closest common ancestor, i.e. the returned id is not of the actual
+closest ancestor, but the closest one that matches the predicate.
+
 **Parameters**
 
 -   `id1` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the first id
 -   `id2` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the second id
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** options
+    -   `$0.predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** a function that if supplied needs to
+         return `true` in order to accept the common ancestor.
+         If not supplied the actual closest common ancestor is accepted. (optional, default `null`)
 
 Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the closest common ancestor or `null` if it doesn't exist
 
@@ -77,10 +83,18 @@ Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 Returns the id of the furthest ancestor of id1 and id2.
 If either id1 or id2 are not found in the ancestry an error is thrown.
 
+When using the predicate a return value of `false` will cause grama to look
+for the next furthest common ancestor, i.e. the returned id is not of the actual
+furthest ancestor, but the furthest one that matches the predicate.
+
 **Parameters**
 
 -   `id1` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the first id
 -   `id2` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the second id
+-   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** options
+    -   `$0.predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** a function that if supplied needs to
+         return `true` in order to accept the common ancestor.
+         If not supplied the actual furthest common ancestor is accepted. (optional, default `null`)
 
 Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the furthest common ancestor or `null` if it doesn't exist
 
@@ -92,8 +106,8 @@ Creates grama who will tell you about the ancestry of the nodes you passed.
 
 -   `$0` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** options
     -   `$0.nodes` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>** the nodes to be added to the ancestry
--   `id` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the name of the property that returns the id of each node
--   `parentId` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the name of the property that returns the id of the parent of each node
+    -   `$0.id` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the name of the property that returns the id of each node
+    -   `$0.parentId` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** the name of the property that returns the id of the parent of each node
 
 Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** an instance of Grama
 
