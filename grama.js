@@ -179,6 +179,21 @@ class Grama {
       : this._furthestCommonAncestorNoPredicate(id1, id2)
   }
 
+  /**
+   * Finds the closes ancestor that matches the predicate.
+   * If two ancestors match the predicate and have the same distance, the
+   * first one found is returned.
+   *
+   * Therefore this function is non-deterministic since it depends on the order
+   * in which ancestors were added.
+   *
+   * @name grama.closestAncestor
+   * @function
+   * @param {String|Number} id the id of the node whose ancestors to evaluate
+   * @param {Function} predicate a function that needst to return `true` if the
+   * ancestor satisfies the criteria
+   * @return {String|Number} the id of the first ancestor matching the predicate
+   */
   closestAncestor(id, predicate) {
     this._ensureInAncestry(id)
     // Relies on the fact that we sorted the ancestors by distance,
@@ -190,6 +205,16 @@ class Grama {
     return null
   }
 
+  /**
+   * Finds all ancestors that match the predicate.
+   *
+   * @name grama.allAncestors
+   * @function
+   * @param {String|Number} id the id of the node whose ancestors to evaluate
+   * @param {Function} predicate a function that needst to return `true` if the
+   * ancestor satisfies the criteria
+   * @return {Set.<String|Number>} the ids of all ancestors matching the predicate
+   */
   allAncestors(id, predicate) {
     this._ensureInAncestry(id)
     const matches = new Set()
@@ -200,6 +225,21 @@ class Grama {
     return matches
   }
 
+  /**
+   * Finds the closes descendant that matches the predicate.
+   * If two descendants match the predicate and have the same distance, the
+   * first one found is returned.
+   *
+   * Therefore this function is non-deterministic since it depends on the order
+   * in which descendants were added.
+   *
+   * @name grama.closestDescendant
+   * @function
+   * @param {String|Number} id the id of the node whose descendants to evaluate
+   * @param {Function} predicate a function that needst to return `true` if the
+   * descendant satisfies the criteria
+   * @return {String|Number} the id of the first descendant matching the predicate
+   */
   closestDescendant(id, predicate) {
     this._ensureInAncestry(id)
     // Relies on the fact that we sorted the descendants by distance,
@@ -211,6 +251,16 @@ class Grama {
     return null
   }
 
+  /**
+   * Finds all descendants that match the predicate.
+   *
+   * @name grama.allDescendants
+   * @function
+   * @param {String|Number} id the id of the node whose descendants to evaluate
+   * @param {Function} predicate a function that needst to return `true` if the
+   * descendant satisfies the criteria
+   * @return {Set.<String|Number>} the ids of all descendants matching the predicate
+   */
   allDescendants(id, predicate) {
     this._ensureInAncestry(id)
     const matches = new Set()
