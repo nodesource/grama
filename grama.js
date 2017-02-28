@@ -1,14 +1,4 @@
-function lastMapEntry(map) {
-  let entry = null
-  const entries = map.entries()
-  while (true) {
-    const { done, value } = entries.next()
-    if (done) break
-    entry = value
-  }
-  return entry
-}
-
+const { lastMapEntry, sortMapByDistance } = require('./lib/map')
 class Grama {
   constructor({ nodes, id, parentId }) {
     this._nodes = this._mapOfNodes(nodes, id)
@@ -56,6 +46,14 @@ class Grama {
         parent.descendants.set(k, distance)
         keepGoing = true
       }
+    }
+
+    // Finally let's sort the ancestors and descendants by distance so we can rely on it
+    // in some queries like closestAncestor and closestDescendant.
+    // In most cases they'll be sorted already, but here we enforce this 100%.
+    for (const v of this._ancestry.values()) {
+      v.ancestors = sortMapByDistance(v.ancestors)
+      v.descendants = sortMapByDistance(v.descendants)
     }
   }
 
@@ -171,6 +169,26 @@ class Grama {
     return predicate != null
       ? this._furthestCommonAncestorWithPredicate(id1, id2, predicate)
       : this._furthestCommonAncestorNoPredicate(id1, id2)
+  }
+
+  closestAncestor(id, predicate) {
+    // Relies on the fact that we sorted the ancestors by distance,
+    // smallest to greatest (@see _buildAncestry)
+    const a = this._ancestry.get(id)
+    for (const id of a.ancestors.keys()) {
+      if (predicate(id)) return id
+    }
+    return null
+  }
+
+  closestDescendant(id, predicate) {
+    // Relies on the fact that we sorted the descendants by distance,
+    // smallest to greatest (@see _buildAncestry)
+    const a = this._ancestry.get(id)
+    for (const id of a.descendants.keys()) {
+      if (predicate(id)) return id
+    }
+    return null
   }
 
   get summary() {

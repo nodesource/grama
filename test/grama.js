@@ -112,3 +112,17 @@ test('\nfurthest common ancestor using predicate', function(t) {
 
   t.end()
 })
+
+/* eslint-disable yoda */
+test('\nclosest ancestor', function(t) {
+  t.equal(grama.closestAncestor(18, id => id === 11), 11)
+  t.equal(grama.closestAncestor(18, id => id > 15), null)
+  t.equal(grama.closestAncestor(18, id => 11 < id && id < 15), 13)
+  t.end()
+})
+
+test('\nclosest descendant', function(t) {
+  t.equal(grama.closestDescendant(10, id => true), null)
+  t.equal(grama.closestDescendant(11, id => id > 13), 19)
+  t.end()
+})
