@@ -98,6 +98,64 @@ furthest ancestor, but the furthest one that matches the predicate.
 
 Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the furthest common ancestor or `null` if it doesn't exist
 
+### grama.closestAncestor
+
+Finds the closes ancestor that matches the predicate.
+If two ancestors match the predicate and have the same distance, the
+first one found is returned.
+
+Therefore this function is non-deterministic since it depends on the order
+in which ancestors were added.
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the node whose ancestors to evaluate
+-   `predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** a function that needst to return `true` if the
+    ancestor satisfies the criteria
+
+Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the first ancestor matching the predicate
+
+### grama.allAncestors
+
+Finds all ancestors that match the predicate.
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the node whose ancestors to evaluate
+-   `predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** a function that needst to return `true` if the
+    ancestor satisfies the criteria
+
+Returns **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))>** the ids of all ancestors matching the predicate
+
+### grama.closestDescendant
+
+Finds the closes descendant that matches the predicate.
+If two descendants match the predicate and have the same distance, the
+first one found is returned.
+
+Therefore this function is non-deterministic since it depends on the order
+in which descendants were added.
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the node whose descendants to evaluate
+-   `predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** a function that needst to return `true` if the
+    descendant satisfies the criteria
+
+Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the first descendant matching the predicate
+
+### grama.allDescendants
+
+Finds all descendants that match the predicate.
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the node whose descendants to evaluate
+-   `predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** a function that needst to return `true` if the
+    descendant satisfies the criteria
+
+Returns **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))>** the ids of all descendants matching the predicate
+
 ### askGrama
 
 Creates grama who will tell you about the ancestry of the nodes you passed.
