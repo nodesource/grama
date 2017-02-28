@@ -35,12 +35,16 @@ console.log('Closest ancestor of 16 and 13 is', grama.closestCommonAncestor(16, 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
--   [API](#api)
-    -   [grama.commonAncestors](#gramacommonancestors)
-    -   [grama.closestCommonAncestor](#gramaclosestcommonancestor)
-    -   [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
-    -   [askGrama](#askgrama)
--   [License](#license)
+- [API](#api)
+  - [grama.commonAncestors](#gramacommonancestors)
+  - [grama.closestCommonAncestor](#gramaclosestcommonancestor)
+  - [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
+  - [grama.closestAncestor](#gramaclosestancestor)
+  - [grama.allAncestors](#gramaallancestors)
+  - [grama.closestDescendant](#gramaclosestdescendant)
+  - [grama.allDescendants](#gramaalldescendants)
+  - [askGrama](#askgrama)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
