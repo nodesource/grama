@@ -89,17 +89,7 @@ class Grama {
     return common
   }
 
-  /**
-   * Returns the id of the closest ancestor of id1 and id2.
-   * If either id1 or id2 are not found in the ancestry an error is thrown.
-   *
-   * @name grama.closestCommonAncestor
-   * @function
-   * @param {String|Number} id1 the first id
-   * @param {String|Number} id2 the second id
-   * @return {String|Number} the id of the closest common ancestor or `null` if it doesn't exist
-   */
-  closestCommonAncestor(id1, id2) {
+  _closestCommonAncestorNoPredicate(id1, id2) {
     const common = this.commonAncestors(id1, id2)
     let closest = { id: null, distance: Number.MAX_SAFE_INTEGER }
     for (const [ id, { totalDistance: distance } ] of common) {
@@ -108,23 +98,79 @@ class Grama {
     return closest.id
   }
 
-  /**
-   * Returns the id of the furthest ancestor of id1 and id2.
-   * If either id1 or id2 are not found in the ancestry an error is thrown.
-   *
-   * @name grama.furthestCommonAncestor
-   * @function
-   * @param {String|Number} id1 the first id
-   * @param {String|Number} id2 the second id
-   * @return {String|Number} the id of the furthest common ancestor or `null` if it doesn't exist
-   */
-  furthestCommonAncestor(id1, id2) {
+  _closestCommonAncestorWithPredicate(id1, id2, predicate) {
+    const common = this.commonAncestors(id1, id2)
+    let closest = { id: null, distance: Number.MAX_SAFE_INTEGER }
+    for (const [ id, { totalDistance: distance } ] of common) {
+      if (distance < closest.distance && predicate(id)) closest = { id, distance }
+    }
+    return closest.id
+  }
+
+  _furthestCommonAncestorNoPredicate(id1, id2) {
     const common = this.commonAncestors(id1, id2)
     let furthest = { id: null, distance: 0 }
     for (const [ id, { totalDistance: distance } ] of common) {
       if (distance > furthest.distance) furthest = { id, distance }
     }
     return furthest.id
+  }
+
+  _furthestCommonAncestorWithPredicate(id1, id2, predicate) {
+    const common = this.commonAncestors(id1, id2)
+    let furthest = { id: null, distance: 0 }
+    for (const [ id, { totalDistance: distance } ] of common) {
+      if (distance > furthest.distance && predicate(id)) furthest = { id, distance }
+    }
+    return furthest.id
+  }
+
+  /**
+   * Returns the id of the closest ancestor of id1 and id2.
+   * If either id1 or id2 are not found in the ancestry an error is thrown.
+   *
+   * When using the predicate a return value of `false` will cause grama to look
+   * for the next closest common ancestor, i.e. the returned id is not of the actual
+   * closest ancestor, but the closest one that matches the predicate.
+   *
+   * @name grama.closestCommonAncestor
+   * @function
+   * @param {String|Number} id1 the first id
+   * @param {String|Number} id2 the second id
+   * @param {Object} $0 options
+   * @param {Function} [$0.predicate=null] a function that if supplied needs to
+   *  return `true` in order to accept the common ancestor.
+   *  If not supplied the actual closest common ancestor is accepted.
+   * @return {String|Number} the id of the closest common ancestor or `null` if it doesn't exist
+   */
+  closestCommonAncestor(id1, id2, { predicate = null } = {}) {
+    return predicate != null
+      ? this._closestCommonAncestorWithPredicate(id1, id2, predicate)
+      : this._closestCommonAncestorNoPredicate(id1, id2)
+  }
+
+  /**
+   * Returns the id of the furthest ancestor of id1 and id2.
+   * If either id1 or id2 are not found in the ancestry an error is thrown.
+   *
+   * When using the predicate a return value of `false` will cause grama to look
+   * for the next furthest common ancestor, i.e. the returned id is not of the actual
+   * furthest ancestor, but the furthest one that matches the predicate.
+   *
+   * @name grama.furthestCommonAncestor
+   * @function
+   * @param {String|Number} id1 the first id
+   * @param {String|Number} id2 the second id
+   * @param {Object} $0 options
+   * @param {Function} [$0.predicate=null] a function that if supplied needs to
+   *  return `true` in order to accept the common ancestor.
+   *  If not supplied the actual furthest common ancestor is accepted.
+   * @return {String|Number} the id of the furthest common ancestor or `null` if it doesn't exist
+   */
+  furthestCommonAncestor(id1, id2, { predicate = null } = {}) {
+    return predicate != null
+      ? this._furthestCommonAncestorWithPredicate(id1, id2, predicate)
+      : this._furthestCommonAncestorNoPredicate(id1, id2)
   }
 
   get summary() {
@@ -142,8 +188,8 @@ class Grama {
  * @function
  * @param {Object} $0 options
  * @param {Array.<Object>} $0.nodes the nodes to be added to the ancestry
- * @param {String} id the name of the property that returns the id of each node
- * @param {String} parentId the name of the property that returns the id of the parent of each node
+ * @param {String} $0.id the name of the property that returns the id of each node
+ * @param {String} $0.parentId the name of the property that returns the id of the parent of each node
  * @return {Object} an instance of Grama
  */
 module.exports = function askGrama({ nodes, id, parentId }) {
