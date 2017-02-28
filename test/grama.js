@@ -126,3 +126,18 @@ test('\nclosest descendant', function(t) {
   t.equal(grama.closestDescendant(11, id => id > 13), 19)
   t.end()
 })
+
+test('\nall ancestors matching predicate', function(t) {
+  t.deepEqual(Array.from(grama.allAncestors(18, x => x < 13)), [ 3, 11 ])
+  t.deepEqual(Array.from(grama.allAncestors(20, x => x < 2)), [])
+  t.deepEqual(Array.from(grama.allAncestors(15, x => x > 3)), [ 11, 13 ])
+  t.end()
+})
+
+test('\nall descendants matching predicate', function(t) {
+  t.deepEqual(Array.from(grama.allDescendants(11, x => 13 < x && x < 17)), [ 16, 15, 14 ])
+  t.deepEqual(Array.from(grama.allDescendants(10, x => true)), [])
+  t.deepEqual(Array.from(grama.allDescendants(11, x => x < 12)), [])
+  t.deepEqual(Array.from(grama.allDescendants(15, x => x !== 18)), [ 19 ])
+  t.end()
+})

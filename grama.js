@@ -123,6 +123,10 @@ class Grama {
     return furthest.id
   }
 
+  _ensureInAncestry(id) {
+    if (!this._ancestry.has(id)) throw new Error(`${id} not found in the ancestry`)
+  }
+
   /**
    * Returns the id of the closest ancestor of id1 and id2.
    * If either id1 or id2 are not found in the ancestry an error is thrown.
@@ -142,6 +146,8 @@ class Grama {
    * @return {String|Number} the id of the closest common ancestor or `null` if it doesn't exist
    */
   closestCommonAncestor(id1, id2, { predicate = null } = {}) {
+    this._ensureInAncestry(id1)
+    this._ensureInAncestry(id2)
     return predicate != null
       ? this._closestCommonAncestorWithPredicate(id1, id2, predicate)
       : this._closestCommonAncestorNoPredicate(id1, id2)
@@ -166,12 +172,15 @@ class Grama {
    * @return {String|Number} the id of the furthest common ancestor or `null` if it doesn't exist
    */
   furthestCommonAncestor(id1, id2, { predicate = null } = {}) {
+    this._ensureInAncestry(id1)
+    this._ensureInAncestry(id2)
     return predicate != null
       ? this._furthestCommonAncestorWithPredicate(id1, id2, predicate)
       : this._furthestCommonAncestorNoPredicate(id1, id2)
   }
 
   closestAncestor(id, predicate) {
+    this._ensureInAncestry(id)
     // Relies on the fact that we sorted the ancestors by distance,
     // smallest to greatest (@see _buildAncestry)
     const a = this._ancestry.get(id)
@@ -181,7 +190,18 @@ class Grama {
     return null
   }
 
+  allAncestors(id, predicate) {
+    this._ensureInAncestry(id)
+    const matches = new Set()
+    const a = this._ancestry.get(id)
+    for (const id of a.ancestors.keys()) {
+      if (predicate(id)) matches.add(id)
+    }
+    return matches
+  }
+
   closestDescendant(id, predicate) {
+    this._ensureInAncestry(id)
     // Relies on the fact that we sorted the descendants by distance,
     // smallest to greatest (@see _buildAncestry)
     const a = this._ancestry.get(id)
@@ -189,6 +209,16 @@ class Grama {
       if (predicate(id)) return id
     }
     return null
+  }
+
+  allDescendants(id, predicate) {
+    this._ensureInAncestry(id)
+    const matches = new Set()
+    const a = this._ancestry.get(id)
+    for (const id of a.descendants.keys()) {
+      if (predicate(id)) matches.add(id)
+    }
+    return matches
   }
 
   get summary() {
