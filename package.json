@@ -1,6 +1,6 @@
 {
   "name": "grama",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Pass grama an array of nodes with parent/child relationships and ask her questions about their ancestry.",
   "main": "grama.js",
   "scripts": {
