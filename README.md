@@ -1,4 +1,4 @@
-# grama [![build status](https://secure.travis-ci.org/nodesource/grama.png)](http://travis-ci.org/nodesource/grama)
+# grama [![build status](https://secure.travis-ci.org/nodesource/grama.png?branch=master)](http://travis-ci.org/nodesource/grama)
 
 Pass grama an array of nodes with parent/child relationships and ask her questions about their ancestry.
 
