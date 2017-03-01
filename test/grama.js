@@ -1,5 +1,9 @@
 const askGrama = require('../')
 const test = require('tape').test
+// eslint-disable-next-line no-unused-vars
+function inspect(obj, depth) {
+  console.error(require('util').inspect(obj, false, depth || 5, true))
+}
 
 const grama = askGrama({
     nodes: [
@@ -34,8 +38,8 @@ test('\nclosest common ancestor', function(t) {
   }
 
   t.throws(
-      () => grama.closestCommonAncestor(10, 3)
-    , /3 not found/
+      () => grama.closestCommonAncestor(10, 1)
+    , /1 not found/
     , 'throws for ids that were not entered'
   )
 
@@ -59,8 +63,8 @@ test('\nfurthest common ancestor', function(t) {
   }
 
   t.throws(
-      () => grama.furthestCommonAncestor(10, 3)
-    , /3 not found/
+      () => grama.furthestCommonAncestor(10, 1)
+    , /1 not found/
     , 'throws for ids that were not entered'
   )
 
