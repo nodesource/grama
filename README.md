@@ -35,16 +35,16 @@ console.log('Closest ancestor of 16 and 13 is', grama.closestCommonAncestor(16, 
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [API](#api)
-  - [grama.commonAncestors](#gramacommonancestors)
-  - [grama.closestCommonAncestor](#gramaclosestcommonancestor)
-  - [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
-  - [grama.closestAncestor](#gramaclosestancestor)
-  - [grama.allAncestors](#gramaallancestors)
-  - [grama.closestDescendant](#gramaclosestdescendant)
-  - [grama.allDescendants](#gramaalldescendants)
-  - [askGrama](#askgrama)
-- [License](#license)
+-   [API](#api)
+    -   [grama.commonAncestors](#gramacommonancestors)
+    -   [grama.closestCommonAncestor](#gramaclosestcommonancestor)
+    -   [grama.furthestCommonAncestor](#gramafurthestcommonancestor)
+    -   [grama.closestAncestor](#gramaclosestancestor)
+    -   [grama.allAncestors](#gramaallancestors)
+    -   [grama.closestDescendant](#gramaclosestdescendant)
+    -   [grama.allDescendants](#gramaalldescendants)
+    -   [askGrama](#askgrama)
+-   [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -159,6 +159,81 @@ Finds all descendants that match the predicate.
     descendant satisfies the criteria
 
 Returns **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))>** the ids of all descendants matching the predicate
+
+### grama.closestSibling
+
+Finds the closest sibling to the node with the provided id that matches the predicate.
+
+It's not exactly a sibling but any node that is a descendant of an
+ancestor of the node with the provided `id`.
+
+We consider the siblings closest if the distance from the node at `id` to
+the common ancestor is shortest.
+
+For instance in the example below we are trying to find the closest sibling of WriteStream:Close.
+Our predicate looks for anything that is a `WriteStream:Write`.
+
+`WriteStream:Write2` is considered a closer sibling since the common ancestor `Read2` is at a shorter
+distance to `WriteStream:Close` than `Read1` which is the ancestor of the other `WriteStream:Write1`.
+
+               -- ReadStream:Open -- Read1 -- Read2 -- Read3 -- WriteStream:Close
+             /                           \          \
+    Parent                                \           -- WriteStream:Write2
+             \                              -- WriteStream:Write1
+               -- WriteStream:Open
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the node whose closest sibling we are trying to find
+-   `predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** needs to return `true` in order to determine a node as a sibling,
+     it is invoked with `({ descendantId, descendantDistance, ancestorId, ancestorDistance })`.
+
+Returns **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the closest sibling matching the predicate
+
+### grama.allSiblings
+
+Finds the all siblings to the node with the provided id that match the predicate.
+
+It's not exactly a sibling but any node that is a descendant of an
+ancestor of the node with the provided `id`.
+
+For instance in the example below we are trying to find all siblings to
+`WriteStream:Close` that start with `WriteStream`.
+The result would include `WriteStream:Write2`, `WriteStream:Write1` and `WriteStream:Open`.
+
+               -- ReadStream:Open -- Read1 -- Read2 -- Read3 -- WriteStream:Close
+             /                           \          \
+    Parent                                \           -- WriteStream:Write2
+             \                              -- WriteStream:Write1
+               -- WriteStream:Open
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id of the node whose siblings we are trying to find
+-   `predicate` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** needs to return `true` in order to determine a node as a sibling,
+     it is invoked with `({ descendantId, descendantDistance, ancestorId, ancestorDistance })`.
+
+Returns **[Set](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set)&lt;([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))>** the ids of the siblings matching the predicate
+
+### grama.has
+
+Determines if the given id is part of the nodes that were passed to grama.
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id we are verifying
+
+Returns **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** `true` if so otherwise `false`
+
+### grama.get
+
+Retrieves the node with the given id from the nodes that were passed to grama.
+
+**Parameters**
+
+-   `id` **([String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number))** the id we are trying to get
+
+Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** the node with the supplied id or `null` if not found
 
 ### askGrama
 
